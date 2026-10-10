@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <title>Document</title>
+</head>
+
+<body>
+    <header
+        class=" flex justify-between items-center  flex-col md:flex-row   py-4 px-8 bg-white fixed w-full left-0 top-0 z-50  ">
+        <h1 class="text-blue-400 text-xl md:text-3xl">سما</h1>
+
+        <nav class="flex flex-wrap gap-4">
+            <a href="#" class="p-2 hover:text-blue-300 transition">الرئيسية </a>
+            <a href="#" class="p-2 hover:text-blue-300 transition"> المنتجات </a>
+            <a href="#" class="p-2 hover:text-blue-300 transition">من نحن </a>
+            <a href="#" class="p-2 hover:text-blue-300 transition">تواصل ممعنا </a>
+        </nav>
+
+        <button class=" bg-blue-400 text-white rounded-2xl py-2 px-4">اطلب الان </button>
+    </header>
+    <!-- ------------------------------------------------------------------------------------ -->
+    <section class="bg-[url('img/sky.png')] bg-cover bg-center py-24  px-8 min-h-screen pt-40 dm:pt-24">
+
+        <div class="flex justify-start items-start flex-col gap-8">
+
+            <h1 class="text-3xl text-white lg:text-6xl w-auto md:w-150 ">اكتشف عالماً أخف وأقرب إلى السماء</h1>
+            <p>[جملة قصيرة تشرح قيمة المنتج أو الخدمة في سطرين]</p>
+            <div class="flex gap-5 flex-col md:flex-row ">
+
+                <a href="#" class="bg-[#123456] text-white py-3 px-4 rounded-xl">ابدأ الآن</a>
+                <a href="#" class="bg-white py-3 px-2 rounded-xl">اعرف أكثر</a>
+            </div>
+        </div>
+    </section>
+    <!-- ---------------------------------------------------------------------------------------- -->
+
+    <section class="p-15">
+        <div>
+            <h2 class="text-2xl p-5 font-bold text-center">لماذا نحن ؟</h2>
+            <p class="text-sm   text-center">[وصف قصير تحت العنوان]</p>
+        </div>
+        <div class="grid grid-cols-1  md:grid-cols-3 gap-6 p-5">
+
+            <div
+                class="rounded-2xl shadow p-4 flex justify-start items-start flex-col gap-4 hover:shadow-2xl transition-all">
+                <div class="size-14 rounded-xl  bg-sky-100 mb-5"></div> <!-- أزرق -->
+                <h3>ميزة اولى</h3>
+                <p>شرح الميزة بجملتين </p>
+            </div>
+
+
+            <div
+                class="rounded-2xl shadow p-4 flex justify-start items-start flex-col gap-4 hover:shadow-2xl transition-all ">
+                <div class="size-14 rounded-xl bg-emerald-100 mb-5"></div> <!-- أخضر -->
+                <h3>ميزة اولى</h3>
+                <p>شرح الميزة بجملتين </p>
+            </div>
+
+            <div
+                class="rounded-2xl shadow p-4 flex justify-start items-start flex-col gap-4 hover:shadow-2xl transition-all ">
+                <div class="size-14 rounded-xl bg-amber-100 mb-5"></div> <!-- أصفر -->
+                <h3>ميزة اولى</h3>
+                <p>شرح الميزة بجملتين </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- --------------------------------------------------------------------------------- -->
+    <section class="bg-blue-50 p-15">
+        <div>
+            <h2 class="text-2xl p-5 font-bold text-center md:text-start">أحدث المنتجات</h2>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+            <div class="bg-white overflow-hidden rounded-2xl hover:shadow-2xl transition-all ">
+                <div class="h-48 bg-linear-to-br from-sky-400 to-sky-200"></div>
+                <div class="p-5">
+                    <h3 class="p-1">منتج</h3>
+                    <p class="p-1">السعر</p>
+                </div>
+            </div>
+
+
+            <div class="bg-white overflow-hidden rounded-2xl hover:shadow-2xl transition-all ">
+                <div class="h-48  bg-linear-to-br from-amber-300 to-amber-100"></div>
+                <div class="p-5">
+                    <h3 class="p-1">منتج</h3>
+                    <p class="p-1">السعر</p>
+                </div>
+            </div>
+
+
+            <div class="bg-white overflow-hidden rounded-2xl hover:shadow-2xl transition-all ">
+                <div class="h-48 bg-linear-to-br from-emerald-300 to-emerald-100"></div>
+                <div class="p-5">
+                    <h3 class="p-1">منتج</h3>
+                    <p class="p-1">السعر</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- -------------------------------------------------------------- -->
+    <section class="p-6">
+
+        <div
+            class="bg-[#1f6fb5] flex items-center justify-center flex-col gap-6  text-white rounded-3xl py-16 px-8 text-center">
+
+            <h2 class="text-2xl font-bold">جاهز للبدء ؟</h2>
+            <p class="font-bold">[جملة تشجع الزائر على اتخاذ الخطوة]</p>
+            <a href="#"
+                class="text-black bg-white py-3 px-4 rounded-lg hover:bg-blue-500 hover:text-white transition-all">تواصل
+                معنا</a>
+
+        </div>
+    </section>
+    <!-- -------------------------------------------- -->
+
+    <footer class="border-t border-[#d6e6f5] bg-white py-7 print:hidden">
+        <div class="wrapper text-center text-[#4a5f78]">
+            جميع الحقوق محفوظة © [اسم المتجر]
+        </div>
+    </footer>
+
+</body>
+
+</html>
