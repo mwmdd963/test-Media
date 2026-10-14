@@ -9,18 +9,74 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
 </head>
 
-<body>
+
+
+<body style="visibility:hidden">
+
+
+    <div id="auth" class="fixed inset-0 z-[60] bg-neutral-50 flex items-center justify-center p-4 overflow-y-auto">
+        <div class="w-full max-w-sm bg-white border border-neutral-200 rounded-2xl p-6">
+
+            <form id="login-form" class="space-y-3 text-sm">
+                <h2 class="text-lg font-medium text-purple-700">Log in</h2>
+
+                <label class="block">Email
+                    <input name="email" type="email" class="mt-1 w-full rounded-lg border border-neutral-300 px-3 py-2">
+                </label>
+
+                <label class="block">Password
+                    <input name="password" type="password"
+                        class="mt-1 w-full rounded-lg border border-neutral-300 px-3 py-2">
+                </label>
+
+                <p id="login-error" class="text-red-600 hidden"></p>
+
+                <button class="w-full py-2 rounded-full bg-neutral-900 text-white">Log in</button>
+
+                <p class="text-center text-neutral-500">Don't have an account?
+                    <button type="button" id="go-signup" class="text-purple-700 hover:underline">Sign up</button>
+                </p>
+            </form>
+
+            <form id="signup-form" class="hidden space-y-3 text-sm">
+                <h2 class="text-lg font-medium text-purple-700">Sign up</h2>
+
+                <label class="block">Name
+                    <input name="name" class="mt-1 w-full rounded-lg border border-neutral-300 px-3 py-2">
+                </label>
+
+                <label class="block">Email
+                    <input name="email" type="email" class="mt-1 w-full rounded-lg border border-neutral-300 px-3 py-2">
+                </label>
+
+                <label class="block">Password
+                    <input name="password" type="password"
+                        class="mt-1 w-full rounded-lg border border-neutral-300 px-3 py-2">
+                </label>
+
+                <p id="signup-error" class="text-red-600 hidden"></p>
+
+                <button class="w-full py-2 rounded-full bg-neutral-900 text-white">Create account</button>
+
+                <p class="text-center text-neutral-500">Already have an account?
+                    <button type="button" id="go-login" class="text-purple-700 hover:underline">Log in</button>
+                </p>
+            </form>
+
+        </div>
+    </div>
 
     <!-- ------------------------------ section hero ---------------------------------------------- -->
 
-    <div class="max-w mx-auto bg-neutral-50 rounded-2xl flex min-h-screen">
+    <div id="app" class="hidden max-w mx-auto bg-neutral-50 rounded-2xl flex min-h-screen">
 
 
         <div id="overlay" class="hidden fixed inset-0 bg-black/40 z-30 md:hidden"></div>
 
 
+        
         <aside id="sidebar"
-            class="fixed inset-y-0 left-0 z-40 w-52 shrink-0 bg-neutral-100 p-4 -translate-x-full transition-transform md:static md:translate-x-0">
+            class="fixed inset-y-0 left-0 z-40 w-52 shrink-0 bg-neutral-100 p-4 -translate-x-full md:static md:translate-x-0">
 
 
             <button id="menu-close" class="md:hidden absolute top-3 right-3 text-neutral-500">
@@ -42,6 +98,11 @@
 
             </nav>
 
+
+            <button id="logout-btn"
+                class="flex w-full items-center gap-3 px-3 py-3 mt-4 rounded-lg text-left hover:bg-neutral-200 hover:text-red-600 active:bg-neutral-200 transition-all"><i
+                    class="ti ti-logout text-base"></i> Log out</button>
+
         </aside>
 
         <main class="flex-1 min-w-0 p-3 md:p-5">
@@ -50,7 +111,8 @@
                     class=" md:hidden px-1 py-3 w-9 h-9 bg-white flex items-center  justify-center border border-neutral-200 rounded-lg ">
                     <i class="ti ti-menu-2 text-2xl text-purple-700 "></i>
                 </button>
-                <span class="md:hidden">Manage Products</span>
+                
+                <span id="page-title" class="md:hidden">Manage Products</span>
             </div>
 
             <section id="view-manage" class="bg-white border border-neutral-200 rounded-2xl p-3 md:p-5">
@@ -85,31 +147,12 @@
                             <th class=" px-3 py-3 text-left font-normal">Action</th>
                         </tr>
                     </thead>
-                    <tbody id="product-rows" class="block md:table-row-group">
-                        <td data-label="Action" class="${cellClass}">
-                            <div class="relative inline-block">
-                                <button
-                                    class="menu-btn w-7 h-7 text-center rounded-full bg-neutral-100 hover:bg-neutral-200">...</button>
-
-                                <div
-                                    class="menu hidden absolute right-0 mt-1 w-28 bg-white border border-neutral-200 rounded-xl shadow-lg z-10 py-1">
-                                    <button data-action="edit" data-id="${p.id}"
-                                        class="w-full text-left px-3 py-2 text-sm hover:bg-neutral-100">Edit</button>
-                                    <button data-action="delete" data-id="${p.id}"
-                                        class="w-full text-left px-3 py-2 text-sm hover:bg-neutral-100">Delete</button>
-                                </div>
-                            </div>
-                        </td>
-                    </tbody>
+                    
+                    <tbody id="product-rows" class="block md:table-row-group"></tbody>
 
                 </table>
 
-                <div class="flex justify-center mt-4">
-                    <button id="more-btn"
-                        class="hidden px-5 py-2 rounded-2xl border border-neutral-300 text-sm hover:bg-neutral-100 transition-all">
-                        Show more
-                    </button>
-                </div>
+                <div id="pager" class="flex flex-wrap justify-center items-center gap-1 mt-4"></div>
 
             </section>
 

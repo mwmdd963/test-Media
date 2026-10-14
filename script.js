@@ -21,13 +21,20 @@ let currentPage = 1;
 let totalPages = 1;
 let totalCount = 0;
 const PAGE_SIZE = 10;
-const moreBtn = document.getElementById('more-btn');
+const pagerEl = document.getElementById('pager');
 
 
 const sidebar = document.getElementById('sidebar');
 const overlay = document.getElementById('overlay');
 const menuOpen = document.getElementById('menu-open');
 const menuClose = document.getElementById('menu-close');
+
+
+const pageTitleEl = document.getElementById('page-title');
+const VIEW_TITLES = {
+    manage: 'Manage Products',
+    categories: 'Categories',
+};
 
 
 const catRowsEl = document.getElementById('category-rows');
@@ -79,6 +86,77 @@ function showSuccess(message) {
 }
 
 
+
+const TOKEN_KEY = 'token';
+
+const authEl = document.getElementById('auth');
+const appEl = document.getElementById('app');
+const loginForm = document.getElementById('login-form');
+const signupForm = document.getElementById('signup-form');
+const loginError = document.getElementById('login-error');
+const signupError = document.getElementById('signup-error');
+const logoutBtn = document.getElementById('logout-btn');
+let appStarted = false;
+
+
+loginForm.noValidate = true;
+signupForm.noValidate = true;
+
+function getToken() {
+    return localStorage.getItem(TOKEN_KEY);
+}
+
+function showAuth() {
+    appEl.classList.add('hidden');
+    authEl.classList.remove('hidden');
+}
+
+function showApp() {
+    authEl.classList.add('hidden');
+    appEl.classList.remove('hidden');
+
+    if (!appStarted) {
+        appStarted = true;
+        showView('manage');
+        loadProducts(true);
+        loadCategories();
+    }
+}
+
+function logout() {
+    localStorage.removeItem(TOKEN_KEY);
+    appStarted = false;
+    loginForm.reset();
+    signupForm.reset();
+    showAuth();
+}
+
+function switchAuthForm(toSignup) {
+    loginForm.classList.toggle('hidden', toSignup);
+    signupForm.classList.toggle('hidden', !toSignup);
+    loginError.classList.add('hidden');
+    signupError.classList.add('hidden');
+}
+
+document.getElementById('go-signup').addEventListener('click', () => switchAuthForm(true));
+document.getElementById('go-login').addEventListener('click', () => switchAuthForm(false));
+logoutBtn.addEventListener('click', logout);
+
+
+loginForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    localStorage.setItem(TOKEN_KEY, 'fake-token');
+    showApp();
+});
+
+
+signupForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    localStorage.setItem(TOKEN_KEY, 'fake-token');
+    showApp();
+});
+
+
 function updateScrollLock() {
     const drawerOpen = overlay && !overlay.classList.contains('hidden');
     const locked = isModalOpen || isCatModalOpen || drawerOpen;
@@ -110,6 +188,9 @@ function showView(name) {
     document.querySelectorAll('[id^="view-"]').forEach((v) => v.classList.add('hidden'));
     target.classList.remove('hidden');
 
+    
+    if (pageTitleEl) pageTitleEl.textContent = VIEW_TITLES[name] || '';
+
     document.querySelectorAll('.nav-btn').forEach((link) => {
         const active = link.dataset.view === name;
         link.classList.toggle('bg-neutral-200', active);
@@ -122,7 +203,7 @@ document.querySelectorAll('.nav-btn').forEach((link) => {
     link.addEventListener('click', (e) => {
         e.preventDefault();
         showView(link.dataset.view);
-        
+
         setTimeout(closeDrawer, 150);
     });
 });
@@ -136,7 +217,7 @@ window.matchMedia('(min-width: 768px)').addEventListener('change', (e) => {
 function openModal() {
     isModalOpen = true;
     modal.classList.remove('hidden');
-    void modal.offsetWidth; 
+    void modal.offsetWidth;
     modal.classList.remove('opacity-0');
     form.classList.remove('scale-95', 'translate-y-2');
     updateScrollLock();
@@ -148,7 +229,7 @@ function closeModal() {
     form.classList.add('scale-95', 'translate-y-2');
     updateScrollLock();
 
-    
+
     setTimeout(() => {
         if (!isModalOpen) modal.classList.add('hidden');
     }, 200);
@@ -177,10 +258,7 @@ function closeCatModal() {
 }
 
 async function loadProducts(reset = false) {
-    if (reset) {
-        currentPage = 1;
-        allProducts = [];
-    }
+    if (reset) currentPage = 1;
 
     const response = await fetch(`${API}/products?page=${currentPage}&limit=${PAGE_SIZE}`);
     const json = await response.json();
@@ -189,20 +267,21 @@ async function loadProducts(reset = false) {
     totalPages = json.data.pagination?.totalPages || 1;
     totalCount = json.data.pagination?.total || items.length;
 
-    allProducts = currentPage === 1 ? items : [...allProducts, ...items];
+
+    if (items.length === 0 && currentPage > 1) {
+        currentPage--;
+        return loadProducts();
+    }
+
+    allProducts = items;
 
     renderProducts(allProducts);
-    updateMoreBtn();
+    renderPager();
 }
 
 
 async function reloadLoadedPages() {
-    const upTo = currentPage;
-    await loadProducts(true);
-    while (currentPage < upTo) {
-        currentPage++;
-        await loadProducts();
-    }
+    await loadProducts();
 }
 
 
@@ -222,26 +301,63 @@ function openEditForm(id) {
     openModal();
 }
 
-function updateMoreBtn() {
-    if (!moreBtn) return;
+function getPageList(current, total) {
+    if (total <= 7) return Array.from({ length: total }, (_, i) => i + 1);
 
-    if (currentPage < totalPages) {
-        const left = totalCount - allProducts.length;
-        moreBtn.textContent = `Show more (${left} left)`;
-        moreBtn.classList.remove('hidden');
-    } else {
-        moreBtn.classList.add('hidden');
-    }
+    const pages = [1];
+    const start = Math.max(2, current - 1);
+    const end = Math.min(total - 1, current + 1);
+
+    if (start > 2) pages.push('...');
+    for (let i = start; i <= end; i++) pages.push(i);
+    if (end < total - 1) pages.push('...');
+
+    pages.push(total);
+    return pages;
 }
 
-if (moreBtn) {
-    moreBtn.addEventListener('click', async () => {
-        if (currentPage >= totalPages) return;
+function renderPager() {
+    if (!pagerEl) return;
 
-        currentPage++;
-        moreBtn.disabled = true;
-        await loadProducts();
-        moreBtn.disabled = false;
+    if (totalPages <= 1) {
+        pagerEl.innerHTML = '';
+        return;
+    }
+
+    const base = 'min-w-8 h-8 px-2 rounded-lg text-sm transition-all';
+
+    let html = `<button data-page="${currentPage - 1}" ${currentPage === 1 ? 'disabled' : ''}
+        class="${base} bg-neutral-100 hover:bg-neutral-200 disabled:opacity-40 disabled:hover:bg-neutral-100">←</button>`;
+
+    getPageList(currentPage, totalPages).forEach((p) => {
+        if (p === '...') {
+            html += `<span class="px-1 text-neutral-400">...</span>`;
+        } else {
+            const style =
+                p === currentPage
+                    ? 'bg-neutral-900 text-white'
+                    : 'text-neutral-600 hover:bg-neutral-200';
+            html += `<button data-page="${p}" class="${base} ${style}">${p}</button>`;
+        }
+    });
+
+    html += `<button data-page="${currentPage + 1}" ${currentPage === totalPages ? 'disabled' : ''}
+        class="${base} bg-neutral-100 hover:bg-neutral-200 disabled:opacity-40 disabled:hover:bg-neutral-100">→</button>`;
+
+    pagerEl.innerHTML = html;
+}
+
+if (pagerEl) {
+    pagerEl.addEventListener('click', (e) => {
+        const btn = e.target.closest('[data-page]');
+        if (!btn || btn.disabled) return;
+
+        const page = Number(btn.dataset.page);
+        if (page < 1 || page > totalPages || page === currentPage) return;
+
+        currentPage = page;
+        loadProducts();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     });
 }
 
@@ -311,7 +427,7 @@ async function deleteCategory(id) {
             showSuccess('Category deleted');
         } else {
             const json = await response.json().catch(() => ({}));
-            // غالباً الصنف مربوط بمنتجات
+            
             showError(json.message || 'Could not delete this category. It may still have products.');
         }
     } catch (err) {
@@ -400,10 +516,10 @@ catForm.addEventListener('submit', async (e) => {
             closeCatModal();
             loadCategories();
             showSuccess(isEdit ? 'Category updated' : 'Category added');
-            
+
             if (isEdit) reloadLoadedPages();
         } else {
-            
+
             showError(json.message || 'Failed to save the category.');
         }
     } catch (err) {
@@ -422,7 +538,7 @@ async function deleteProduct(id) {
         });
 
         if (response.ok) {
-            loadProducts(true);
+            loadProducts();
             showSuccess('Product deleted');
         } else {
             const json = await response.json().catch(() => ({}));
@@ -505,7 +621,7 @@ form.addEventListener('submit', async (e) => {
         categoryId: formData.get('categoryId'),
     };
 
-   
+
     const id = formData.get('id');
     const isEdit = Boolean(id);
     const url = isEdit ? API + '/products/' + id : API + '/products';
@@ -528,7 +644,7 @@ form.addEventListener('submit', async (e) => {
             if (isEdit) reloadLoadedPages();
             else loadProducts(true);
         } else {
-            
+
             showError(json.message || 'Failed to save the product.');
         }
     } catch (err) {
@@ -565,6 +681,13 @@ function renderProducts(products) {
     });
 }
 
-showView('manage');
-loadProducts();
-loadCategories();
+
+if (getToken()) showApp();
+else showAuth();
+
+window.addEventListener('load', () => {
+    requestAnimationFrame(() => {
+        document.body.style.visibility = 'visible';
+        sidebar.classList.add('transition-transform');
+    });
+});
