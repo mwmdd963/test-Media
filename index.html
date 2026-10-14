@@ -1,131 +1,222 @@
 <!DOCTYPE html>
-<html lang="en" dir="rtl">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <title>Document</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Products</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
 </head>
 
 <body>
-    <header
-        class=" flex justify-between items-center  flex-col md:flex-row   py-4 px-8 bg-white fixed w-full left-0 top-0 z-50  ">
-        <h1 class="text-blue-400 text-xl md:text-3xl">سما</h1>
 
-        <nav class="flex flex-wrap gap-4">
-            <a href="#" class="p-2 hover:text-blue-300 transition">الرئيسية </a>
-            <a href="#" class="p-2 hover:text-blue-300 transition"> المنتجات </a>
-            <a href="#" class="p-2 hover:text-blue-300 transition">من نحن </a>
-            <a href="#" class="p-2 hover:text-blue-300 transition">تواصل ممعنا </a>
-        </nav>
+    <!-- ------------------------------ section hero ---------------------------------------------- -->
 
-        <button class=" bg-blue-400 text-white rounded-2xl py-2 px-4">اطلب الان </button>
-    </header>
-    <!-- ------------------------------------------------------------------------------------ -->
-    <section class="bg-[url('img/sky.png')] bg-cover bg-center py-24  px-8 min-h-screen pt-40 dm:pt-24">
-
-        <div class="flex justify-start items-start flex-col gap-8">
-
-            <h1 class="text-3xl text-white lg:text-6xl w-auto md:w-150 ">اكتشف عالماً أخف وأقرب إلى السماء</h1>
-            <p>[جملة قصيرة تشرح قيمة المنتج أو الخدمة في سطرين]</p>
-            <div class="flex gap-5 flex-col md:flex-row ">
-
-                <a href="#" class="bg-[#123456] text-white py-3 px-4 rounded-xl">ابدأ الآن</a>
-                <a href="#" class="bg-white py-3 px-2 rounded-xl">اعرف أكثر</a>
-            </div>
-        </div>
-    </section>
-    <!-- ---------------------------------------------------------------------------------------- -->
-
-    <section class="p-15">
-        <div>
-            <h2 class="text-2xl p-5 font-bold text-center">لماذا نحن ؟</h2>
-            <p class="text-sm   text-center">[وصف قصير تحت العنوان]</p>
-        </div>
-        <div class="grid grid-cols-1  md:grid-cols-3 gap-6 p-5">
-
-            <div
-                class="rounded-2xl shadow p-4 flex justify-start items-start flex-col gap-4 hover:shadow-2xl transition-all">
-                <div class="size-14 rounded-xl  bg-sky-100 mb-5"></div> <!-- أزرق -->
-                <h3>ميزة اولى</h3>
-                <p>شرح الميزة بجملتين </p>
-            </div>
+    <div class="max-w mx-auto bg-neutral-50 rounded-2xl flex min-h-screen">
 
 
-            <div
-                class="rounded-2xl shadow p-4 flex justify-start items-start flex-col gap-4 hover:shadow-2xl transition-all ">
-                <div class="size-14 rounded-xl bg-emerald-100 mb-5"></div> <!-- أخضر -->
-                <h3>ميزة اولى</h3>
-                <p>شرح الميزة بجملتين </p>
+        <div id="overlay" class="hidden fixed inset-0 bg-black/40 z-30 md:hidden"></div>
+
+
+        <aside id="sidebar"
+            class="fixed inset-y-0 left-0 z-40 w-52 shrink-0 bg-neutral-100 p-4 -translate-x-full transition-transform md:static md:translate-x-0">
+
+
+            <button id="menu-close" class="md:hidden absolute top-3 right-3 text-neutral-500">
+                <i class="ti ti-x text-lg"></i>
+            </button>
+
+            <p class="text-[10px] text-neutral-500 mb-3">NAVIGATION</p>
+
+            <nav>
+
+                <a href="#" data-view="manage"
+                    class="nav-btn flex items-center gap-3 px-3 py-3 rounded-lg hover:bg-neutral-200  hover:text-purple-700  transition-all"><i
+                        class="ti ti-package text-base"></i> Manage Products</a>
+
+
+                <a href="#" data-view="categories"
+                    class="nav-btn flex items-center gap-3 px-3 py-3 rounded-lg hover:bg-neutral-200 hover:text-purple-700   transition-all"><i
+                        class="ti ti-category text-base"></i> Categories</a>
+
+            </nav>
+
+        </aside>
+
+        <main class="flex-1 min-w-0 p-3 md:p-5">
+            <div class="flex items-center gap-3 mb-3">
+                <button id="menu-open"
+                    class=" md:hidden px-1 py-3 w-9 h-9 bg-white flex items-center  justify-center border border-neutral-200 rounded-lg ">
+                    <i class="ti ti-menu-2 text-2xl text-purple-700 "></i>
+                </button>
+                <span class="md:hidden">Manage Products</span>
             </div>
 
-            <div
-                class="rounded-2xl shadow p-4 flex justify-start items-start flex-col gap-4 hover:shadow-2xl transition-all ">
-                <div class="size-14 rounded-xl bg-amber-100 mb-5"></div> <!-- أصفر -->
-                <h3>ميزة اولى</h3>
-                <p>شرح الميزة بجملتين </p>
-            </div>
-        </div>
-    </section>
+            <section id="view-manage" class="bg-white border border-neutral-200 rounded-2xl p-3 md:p-5">
 
-    <!-- --------------------------------------------------------------------------------- -->
-    <section class="bg-blue-50 p-15">
-        <div>
-            <h2 class="text-2xl p-5 font-bold text-center md:text-start">أحدث المنتجات</h2>
-        </div>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
 
-            <div class="bg-white overflow-hidden rounded-2xl hover:shadow-2xl transition-all ">
-                <div class="h-48 bg-linear-to-br from-sky-400 to-sky-200"></div>
-                <div class="p-5">
-                    <h3 class="p-1">منتج</h3>
-                    <p class="p-1">السعر</p>
+
+                <div class="flex flex-wrap items-center gap-4 mb-5 md:mb-3">
+                    <h1 class="flex-1 text-base text-purple-700">Manage Products page</h1>
+
+                    <button id="add-btn"
+                        class="bg-black text-white py-2 px-4 rounded-2xl hover:text-purple-700 hover:bg-neutral-200 transition-all order-2  md:order-3  shrink-0 flex items-center gap-1 text-sm font-medium"><i
+                            class="ti ti-plus"></i> Add product</button>
+
+
+                    <div class="order-3 md:order-2 relative w-full md:w-64">
+                        <i class="ti ti-search absolute left-3 top-1/2 -translate-y-1/2 text-neutral-400"></i>
+                        <input type="search" name="search" id="search" tabindex="1" placeholder="Search products..."
+                            class="w-full pl-10 pr-3 py-2 text-sm rounded-2xl border border-neutral-300 bg-white focus:outline-none focus:ring-2 focus:ring-purple-700 focus:border-indigo-900 transition-all">
+                    </div>
+
                 </div>
-            </div>
+                <p id="status-msg" class="hidden text-sm py-4 text-center"></p>
+                <table class="block md:table w-full text-sm">
 
+                    <thead class="hidden md:table-header-group border-b-2">
+                        <tr>
+                            <th class="  py-3 text-left font-normal">Name Products</th>
+                            <th class=" px-3 py-3 text-left font-normal">Category</th>
+                            <th class="px-3 py-3 text-left font-normal">Quantity</th>
+                            <th class=" px-3 py-3 text-left font-normal">Price</th>
+                            <th class=" px-3 py-3 text-left font-normal">Created At</th>
+                            <th class=" px-3 py-3 text-left font-normal">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="product-rows" class="block md:table-row-group">
+                        <td data-label="Action" class="${cellClass}">
+                            <div class="relative inline-block">
+                                <button
+                                    class="menu-btn w-7 h-7 text-center rounded-full bg-neutral-100 hover:bg-neutral-200">...</button>
 
-            <div class="bg-white overflow-hidden rounded-2xl hover:shadow-2xl transition-all ">
-                <div class="h-48  bg-linear-to-br from-amber-300 to-amber-100"></div>
-                <div class="p-5">
-                    <h3 class="p-1">منتج</h3>
-                    <p class="p-1">السعر</p>
+                                <div
+                                    class="menu hidden absolute right-0 mt-1 w-28 bg-white border border-neutral-200 rounded-xl shadow-lg z-10 py-1">
+                                    <button data-action="edit" data-id="${p.id}"
+                                        class="w-full text-left px-3 py-2 text-sm hover:bg-neutral-100">Edit</button>
+                                    <button data-action="delete" data-id="${p.id}"
+                                        class="w-full text-left px-3 py-2 text-sm hover:bg-neutral-100">Delete</button>
+                                </div>
+                            </div>
+                        </td>
+                    </tbody>
+
+                </table>
+
+                <div class="flex justify-center mt-4">
+                    <button id="more-btn"
+                        class="hidden px-5 py-2 rounded-2xl border border-neutral-300 text-sm hover:bg-neutral-100 transition-all">
+                        Show more
+                    </button>
                 </div>
-            </div>
+
+            </section>
 
 
-            <div class="bg-white overflow-hidden rounded-2xl hover:shadow-2xl transition-all ">
-                <div class="h-48 bg-linear-to-br from-emerald-300 to-emerald-100"></div>
-                <div class="p-5">
-                    <h3 class="p-1">منتج</h3>
-                    <p class="p-1">السعر</p>
+            <section id="view-categories" class="hidden bg-white border border-neutral-200 rounded-2xl p-3 md:p-5">
+
+                <div class="flex flex-wrap items-center gap-4 mb-5 md:mb-3">
+                    <h1 class="flex-1 text-base text-purple-700">Categories page</h1>
+
+                    <button id="cat-add-btn"
+                        class="bg-black text-white py-2 px-4 rounded-2xl hover:text-purple-700 hover:bg-neutral-200 transition-all shrink-0 flex items-center gap-1 text-sm font-medium"><i
+                            class="ti ti-plus"></i> Add category</button>
                 </div>
+
+                <p id="cat-status" class="hidden text-sm py-4 text-center"></p>
+
+                <table class="block md:table w-full text-sm">
+                    <thead class="hidden md:table-header-group border-b-2">
+                        <tr>
+                            <th class="py-3 text-left font-normal">Category name</th>
+                            <th class="px-3 py-3 text-left font-normal">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="category-rows" class="block md:table-row-group"></tbody>
+                </table>
+
+            </section>
+
+        </main>
+    </div>
+
+
+    <!-- -----------------------------  section   product  --------------------------------------- -->
+
+    <div id="modal"
+        class="hidden opacity-0 transition-opacity duration-200 fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4">
+
+        <form id="product-form"
+            class="scale-95 translate-y-2 transition duration-200 bg-white rounded-2xl w-full max-w-md p-6 space-y-3 text-sm max-h-full overflow-y-auto overscroll-contain">
+            <h2 id="modal-title" class="text-lg font-medium">Add product</h2>
+            <input type="hidden" name="id">
+
+            <label class="block">Product name
+                <input name="name" class="mt-1 w-full rounded-lg border border-neutral-300 px-3 py-2">
+            </label>
+
+            <label class="block">Description
+                <input name="description" class="mt-1 w-full rounded-lg border border-neutral-300 px-3 py-2">
+            </label>
+
+            <div class="grid grid-cols-2 gap-3">
+                <label class="block">Price ($)
+                    <input name="price" type="number" min="0" step="0.01"
+                        class="mt-1 w-full rounded-lg border border-neutral-300 px-3 py-2">
+                </label>
+                <label class="block">Quantity
+                    <input name="quantity" type="number" min="0" step="1"
+                        class="mt-1 w-full rounded-lg border border-neutral-300 px-3 py-2">
+                </label>
             </div>
-        </div>
-    </section>
 
-    <!-- -------------------------------------------------------------- -->
-    <section class="p-6">
+            <label class="block">Category
+                <select name="categoryId" id="category-select"
+                    class="mt-1 w-full rounded-lg border border-neutral-300 px-3 py-2 bg-white">
+                    <option value="">Choose a category</option>
+                </select>
+            </label>
 
-        <div
-            class="bg-[#1f6fb5] flex items-center justify-center flex-col gap-6  text-white rounded-3xl py-16 px-8 text-center">
+            <p id="form-error" class="text-red-600 hidden"></p>
 
-            <h2 class="text-2xl font-bold">جاهز للبدء ؟</h2>
-            <p class="font-bold">[جملة تشجع الزائر على اتخاذ الخطوة]</p>
-            <a href="#"
-                class="text-black bg-white py-3 px-4 rounded-lg hover:bg-blue-500 hover:text-white transition-all">تواصل
-                معنا</a>
+            <div class="flex justify-end gap-2 pt-2">
+                <button type="button" id="modal-cancel"
+                    class="px-4 py-2 rounded-full border border-neutral-300">Cancel</button>
+                <button class="px-5 py-2 rounded-full bg-neutral-900 text-white">Save</button>
+            </div>
+        </form>
 
-        </div>
-    </section>
-    <!-- -------------------------------------------- -->
+    </div>
 
-    <footer class="border-t border-[#d6e6f5] bg-white py-7 print:hidden">
-        <div class="wrapper text-center text-[#4a5f78]">
-            جميع الحقوق محفوظة © [اسم المتجر]
-        </div>
-    </footer>
+    <!-- ---------------------------------  section category -------------------------------------------- -->
+
+    <div id="cat-modal"
+        class="hidden opacity-0 transition-opacity duration-200 fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4">
+
+        <form id="cat-form"
+            class="scale-95 translate-y-2 transition duration-200 bg-white rounded-2xl w-full max-w-md p-6 space-y-3 text-sm max-h-full overflow-y-auto overscroll-contain">
+            <h2 id="cat-modal-title" class="text-lg font-medium">Add category</h2>
+            <input type="hidden" name="id">
+
+            <label class="block">Category name
+                <input name="name" class="mt-1 w-full rounded-lg border border-neutral-300 px-3 py-2">
+            </label>
+
+            <p id="cat-form-error" class="text-red-600 hidden"></p>
+
+            <div class="flex justify-end gap-2 pt-2">
+                <button type="button" id="cat-cancel"
+                    class="px-4 py-2 rounded-full border border-neutral-300">Cancel</button>
+                <button class="px-5 py-2 rounded-full bg-neutral-900 text-white">Save</button>
+            </div>
+        </form>
+
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="script.js"></script>
 
 </body>
+
 
 </html>
